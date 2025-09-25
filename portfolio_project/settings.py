@@ -1,5 +1,5 @@
 """
-Django settings for authsystem project.
+Django settings for portfolio_project.
 """
 
 from pathlib import Path
@@ -13,9 +13,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ========================
 # SECURITY
 # ========================
-SECRET_KEY = 'django-insecure-1@hnzrab99!bp^v4i$&%)*4bcp1xq(1qhp8n!(w559cdz(cl1!'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-1@hnzrab99!bp^v4i$&%)*4bcp1xq(1qhp8n!(w559cdz(cl1!'  # fallback for local dev
+)
+
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 # ========================
 # APPLICATIONS
@@ -48,6 +53,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # ========================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # for serving static files in production
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -68,7 +74,7 @@ WSGI_APPLICATION = 'portfolio_project.wsgi.application'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'portfolio' / 'templates'],  # or BASE_DIR / 'templates' if you prefer global
+        'DIRS': [BASE_DIR / 'portfolio' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,7 +119,7 @@ USE_TZ = True
 # STATIC FILES
 # ========================
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # for global static files during development
+STATICFILES_DIRS = [BASE_DIR / 'static']  # for development
 STATIC_ROOT = BASE_DIR / 'staticfiles'   # for production collectstatic
 
 # ========================
