@@ -18,9 +18,9 @@ SECRET_KEY = os.environ.get(
     'django-insecure-1@hnzrab99!bp^v4i$&%)*4bcp1xq(1qhp8n!(w559cdz(cl1!'  # fallback for local dev
 )
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = False  # explicitly set for production on Render
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = ['portfolipro-junior1.onrender.com']  # your Render URL
 
 # ========================
 # APPLICATIONS
