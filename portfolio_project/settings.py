@@ -20,9 +20,10 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'portfolipro-junior1.onrender.com').split(',')
- # your Render URL
+ALLOWED_HOSTS = os.environ.get(
+    'ALLOWED_HOSTS',
+    'portfolipro-junior1.onrender.com'
+).split(',')
 
 # ========================
 # APPLICATIONS
@@ -123,12 +124,21 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']  # for development
 STATIC_ROOT = BASE_DIR / 'staticfiles'   # for production collectstatic
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ========================
 # MEDIA FILES
 # ========================
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# ========================
+# SECURITY ENHANCEMENTS (Production)
+# ========================
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # ========================
 # DEFAULT AUTO FIELD
