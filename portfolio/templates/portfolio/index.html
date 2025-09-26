@@ -8,6 +8,14 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  <!-- Smooth Scroll -->
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -147,11 +155,9 @@
 <!-- Gallery Modal -->
 <div id="galleryModal" class="gallery-modal" style="display:none;">
   <span class="close" onclick="closeGallery()">&times;</span>
-
   <div class="gallery-content">
     <img id="galleryImage" src="" alt="Gallery Image">
   </div>
-
   <div class="gallery-nav">
     <button class="prev" onclick="moveGallery(-1)">&#10094;</button>
     <button class="next" onclick="moveGallery(1)">&#10095;</button>
@@ -205,7 +211,6 @@
   let galleryIndex = 0;
   const images = [
     "{% static 'images/work1.png' %}",
-    "{% static 'images/work2.png' %}",
     "{% static 'images/work3.png' %}",
     "{% static 'images/work4.png' %}",
     "{% static 'images/work5.png' %}"
