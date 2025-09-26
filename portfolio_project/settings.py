@@ -20,10 +20,13 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get(
-    'ALLOWED_HOSTS',
-    'portfolipro-junior1-z.onrender.com,localhost,127.0.0.1'
-).split(',')
+ALLOWED_HOSTS = [
+    'portfolipro-junior1-a.onrender.com',       # your custom URL
+    'portfolipro-junior1-a-2pou.onrender.com',  # Render default live URL
+    'localhost',
+    '127.0.0.1',
+]
+
 
 # ========================
 # APPLICATIONS
