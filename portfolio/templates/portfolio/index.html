@@ -8,16 +8,14 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
   <!-- Font Awesome -->
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
 <!-- Navbar -->
 <div class="container">
-  <nav>
+  <nav class="navbar">
     <div class="logo">JuniorTechHub.</div>
     <ul id="sidemenu">
       <li><a href="#header">Home</a></li>
@@ -33,7 +31,7 @@
 <div id="overlay" onclick="closemenu()"></div>
 
 <!-- Hero Section -->
-<section id="header">
+<section id="header" class="fade-section">
   <div class="container hero">
     <div class="hero-text">
       <p>Web Developer / Data Analyst</p>
@@ -51,7 +49,7 @@
 </section>
 
 <!-- About Section -->
-<section id="about">
+<section id="about" class="fade-section">
   <div class="container">
     <div class="row">
       <div class="about-col-1">
@@ -95,7 +93,7 @@
   </div>
 </section>
 
-<!-- Services -->
+<!-- Services Section -->
 <section id="services">
   <div class="container">
     <h1 class="sub-title">My Services</h1>
@@ -119,31 +117,25 @@
   </div>
 </section>
 
-<!-- Portfolio -->
-<section id="portfolio" class="visible">
+<!-- Portfolio Section -->
+<section id="portfolio" class="fade-section">
   <div class="container">
     <h1 class="sub-title">My Work</h1>
-    <div class="work-list">
-      <div class="work">
+    <div class="work-list gallery">
+      <div class="work" onclick="openGallery(0)">
         <img src="{% static 'images/webdev1.png' %}" alt="Web Design">
-        <div class="layer">
-          <h3>Web Designing</h3>
-          <p>Modern, user-friendly responsive layouts.</p>
-        </div>
+        <h3>Web Developer</h3>
+        <p>Frontend & Backend Development, creating responsive and user-friendly websites.</p>
       </div>
-      <div class="work">
+      <div class="work" onclick="openGallery(1)">
         <img src="{% static 'images/analysis.png' %}" alt="Data Analysis">
-        <div class="layer">
-          <h3>Data Analysis</h3>
-          <p>Transforming data into insights for better decisions.</p>
-        </div>
+        <h3>Data Analysis</h3>
+        <p>SQL, Excel, and Power BI to derive insights and support decision-making.</p>
       </div>
-      <div class="work">
+      <div class="work" onclick="openGallery(2)">
         <img src="{% static 'images/graphic.png' %}" alt="Graphic Design">
-        <div class="layer">
-          <h3>Graphic Design</h3>
-          <p>Creative visuals for brands and businesses.</p>
-        </div>
+        <h3>Graphic Designer</h3>
+        <p>Branding, flyers, and logo design to create visually compelling content.</p>
       </div>
     </div>
     <div style="text-align:center; margin-top:30px;">
@@ -152,8 +144,22 @@
   </div>
 </section>
 
-<!-- Contact -->
-<section id="contact">
+<!-- Gallery Modal -->
+<div id="galleryModal" class="gallery-modal" style="display:none;">
+  <span class="close" onclick="closeGallery()">&times;</span>
+
+  <div class="gallery-content">
+    <img id="galleryImage" src="" alt="Gallery Image">
+  </div>
+
+  <div class="gallery-nav">
+    <button class="prev" onclick="moveGallery(-1)">&#10094;</button>
+    <button class="next" onclick="moveGallery(1)">&#10095;</button>
+  </div>
+</div>
+
+<!-- Contact Section -->
+<section id="contact" class="fade-section">
   <div class="container">
     <div class="row">
       <div class="contact-left">
@@ -161,18 +167,18 @@
         <p><i class="fas fa-envelope"></i> alexsaibulu148@gmail.com</p>
         <p><i class="fas fa-phone-square"></i> 0727 409 118</p>
         <div class="social-icons">
-          <a href="https://github.com/topics/login"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/feed/?trk=guest_homepage-basic_google-one-tap-submit"><i class="fab fa-linkedin"></i></a>
-          <a href="https://www.facebook.com/"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
           <a href="#"><i class="fab fa-instagram"></i></a>
         </div>
         <a href="{% static 'images/my-cv.pdf' %}" download class="btn">Download CV</a>
       </div>
       <div class="contact-right">
-        <form name="submit-to-google-sheet">
+        <form id="contact-form" name="contact-form">
           <input type="text" name="Name" placeholder="Your Name" required>
           <input type="email" name="Email" placeholder="Your Email" required>
-          <textarea rows="6" name="Message" placeholder="Your Message"></textarea>
+          <textarea rows="6" name="Message" placeholder="Your Message" required></textarea>
           <button type="submit" class="btn">Submit</button>
         </form>
         <span id="msg"></span>
@@ -186,17 +192,86 @@
 
 <!-- ========== JAVASCRIPT ========== -->
 <script>
-function opentab(event, tabname) {
-  document.querySelectorAll(".tab-links").forEach(l => l.classList.remove("active-link"));
-  document.querySelectorAll(".tab-contents").forEach(c => c.classList.remove("active-tab"));
-  event.currentTarget.classList.add("active-link");
-  document.getElementById(tabname).classList.add("active-tab");
-}
+  // Fade-in sections on scroll
+  const sections = document.querySelectorAll('.fade-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.2 });
+  sections.forEach(section => observer.observe(section));
 
-var sidemenu = document.getElementById("sidemenu");
-var overlay = document.getElementById("overlay");
-function openmenu() { sidemenu.classList.add("active"); overlay.classList.add("active"); }
-function closemenu() { sidemenu.classList.remove("active"); overlay.classList.remove("active"); }
+  // Gallery functionality
+  let galleryIndex = 0;
+  const images = [
+    "{% static 'images/work1.png' %}",
+    "{% static 'images/work2.png' %}",
+    "{% static 'images/work3.png' %}",
+    "{% static 'images/work4.png' %}",
+    "{% static 'images/work5.png' %}"
+  ];
+
+  function openGallery(index) {
+    galleryIndex = index;
+    document.getElementById('galleryModal').style.display = "flex";
+    document.getElementById('galleryImage').src = images[galleryIndex];
+  }
+
+  function showGallery() {
+    galleryIndex = 0;
+    document.getElementById('galleryModal').style.display = "flex";
+    document.getElementById('galleryImage').src = images[galleryIndex];
+  }
+
+  function closeGallery() {
+    document.getElementById('galleryModal').style.display = "none";
+  }
+
+  function moveGallery(direction) {
+    galleryIndex = (galleryIndex + direction + images.length) % images.length;
+    document.getElementById('galleryImage').src = images[galleryIndex];
+  }
+
+  // Tabs in About Me
+  function opentab(event, tabname) {
+    document.querySelectorAll(".tab-links").forEach(link => link.classList.remove("active-link"));
+    document.querySelectorAll(".tab-contents").forEach(tab => tab.classList.remove("active-tab"));
+    event.currentTarget.classList.add("active-link");
+    document.getElementById(tabname).classList.add("active-tab");
+  }
+
+  // Navbar toggle
+  var sidemenu = document.getElementById("sidemenu");
+  var overlay = document.getElementById("overlay");
+  function openmenu() {
+    sidemenu.classList.add("active");
+    overlay.classList.add("active");
+  }
+  function closemenu() {
+    sidemenu.classList.remove("active");
+    overlay.classList.remove("active");
+  }
+
+  // Contact form submission to Google Sheets
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzm9GbIe0C3f_nNSYUVeJI2Yjt-CtOiO9pXvNiWfyVd30RB1h3LE4ifBikBIgzoWXGq/exec';
+  const form = document.forms['contact-form'];
+  const msg = document.getElementById("msg");
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        msg.innerHTML = "✅ Message sent successfully!";
+        msg.style.color = "lightgreen";
+        form.reset();
+        setTimeout(() => msg.innerHTML = "", 2000);
+      })
+      .catch(error => {
+        msg.innerHTML = "❌ Error sending message";
+        msg.style.color = "red";
+        console.error('Error!', error.message);
+      });
+  });
 </script>
 
 </body>
